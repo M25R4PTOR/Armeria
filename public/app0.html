@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Tienda (App0)</title>
+
+  <style>
+    @media screen and (max-width: 400px) {
+      body {
+        background-color: white;
+      }
+    }
+
+    :root {
+      --bgcolor-menu: #030338;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #bbb;
+      padding-bottom: 80px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 14px;
+    }
+
+    nav {
+      background-color: var(--bgcolor-menu);
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+    }
+
+    main {
+      padding-left: 40px;
+      z-index: 0;
+    }
+
+
+    nav ul {
+      list-style: none;
+      overflow: hidden;
+    }
+
+    ul.menu {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    ul.menu>a {
+      float: left;
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: .5s;
+    }
+
+    ul.menu>a:hover {
+      cursor: pointer;
+    }
+
+    .seccion {
+      padding-top: 80px;
+      display: none;
+    }
+
+    input {
+      padding: 10px;
+      background-color: #7171f7;
+      border-radius: 6px;
+      font-size: 14px;
+      color: black;
+      border: none;
+      margin-left: 5px;
+      margin-bottom: 4px;
+    }
+
+    input:focus {
+      background-color: #fdebc9;
+    }
+
+    input:required:invalid,
+    input:focus:invalid {
+      background-color: lightpink;
+    }
+
+    button {
+      padding: 10px;
+      border-radius: 6px;
+      background-color: #2b2b9b;
+      border: none;
+      font-size: 14px;
+      color: white;
+      margin-left: 40px;
+      margin-bottom: 4px;
+    }
+
+    button:hover {
+      background-color: #fdebc9;
+      color: black;
+    }
+
+    footer {
+      color: #ffffff;
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      height: 30px;
+      width: 100%;
+      padding-left: 20px;
+      padding-top: 10px;
+      overflow: hidden;
+      background: var(--bgcolor-menu);
+      font-size: 14px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <nav>
+    <ul class="menu">
+      <a class="opcion" name="inicio" href="/">
+        <b>INICIO</b>
+      </a>
+      <a class="opcion" name="articulos">Artículos</a>
+    </ul>
+  </nav>
+
+  <main id="contenido">
+    <div class="seccion" id="articulos" style="min-height:200px"></div>
+    <div class="seccion" id="acerca" style="min-height:200px"></div>
+  </main>
+
+  <footer>App sin bootstrap. Artículos.</footer>
+
+
+  <script>
+
+
+    let index = ''
+      + '<div style="margin: 50px">'
+      + '<h1>App0</h1>'
+      + '<br><br><p>Esta SPA ofrece 2 opciones:</p>'
+      + '<br>'
+      + '<ul style="padding-left: 50px">'
+      + '<li><b>INICIO</b>: Enlace para salir de la APP y volver a la página de inicio.</li>'
+      + '<li><b>Artículos</b>: Permite realizar operaciones CRUD sobre los artículos de la BD. </li>'
+      + '</ul>'
+      + '<br><p>Por favor, escoge una opción.'
+      + '</div>';
+
+
+    window.addEventListener('load', function () {
+
+      let acerca = document.getElementById('acerca')
+      acerca.innerHTML = index;
+      acerca.style.display = 'block';
+
+      document.getElementsByName('articulos')[0].addEventListener('click', function (e) {
+        this.setAttribute('style', 'background-color: #bbb; color: #000');
+
+        document.getElementById('acerca').style.display = 'none';
+
+        refrescar();
+      });
+
+    });
+
+
+    function refrescar() {
+      limpiarDocumentos();
+      insertarDocumento();
+      verDocumentos();
+    }
+
+    function borrar(id) {
+      // if (confirm("El documento para " + documento.nombre + " va a ser eliminado. ¿Está seguro?")) {
+      fetch('/api/articulos/' + id, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(data => console.log(data));
+      // }
+    }
+
+    function insertar(campo1, campo2) {
+      let objeto = { nombre: campo1, precio: campo2 };
+
+      fetch('/api/articulos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(objeto)
+
+      }).then(res => res.json())
+        .then(data => {
+          console.log(data);
+          refrescar();
+        });
+    }
+
+    function modificar(id, campo1, campo2) {
+      let objeto = { nombre: campo1, precio: campo2 };
+
+      fetch('/api/articulos/' + id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(objeto)
+      }).then(res => res.json())
+        .then(data => { console.log(data) });
+    }
+
+
+    function crearNodo(tag, id, clase, estilo) {
+      let el = document.createElement(tag);
+
+      el.setAttribute('id', id);
+      el.setAttribute('class', clase);
+      el.setAttribute('style', estilo);
+
+      return el;
+    }
+
+
+    function crearItem(item) {
+      let d, i1, i2, b;
+
+      d = document.createElement('div');
+
+      i1 = document.createElement('input');
+      i1.setAttribute('type', 'text');
+      i1.setAttribute('value', item.nombre);
+      d.appendChild(i1);
+
+      i2 = document.createElement('input');
+      // i2.setAttribute('type', 'text');
+      i2.setAttribute('type', 'number');
+      i2.setAttribute('min', '0');
+      i2.setAttribute('max', '9999.99');
+      i2.setAttribute('step', '.01');
+      i2.setAttribute('value', item.precio);
+      d.appendChild(i2);
+
+
+      // MODIFICAR
+      b = crearNodo('button', '', '', '');
+      b.textContent = 'Modificar';
+      b.addEventListener('click', function () { modificar(item._id, i1.value, i2.value) });
+      d.appendChild(b);
+
+      // BORRAR
+      b = crearNodo('button', '', '', '');
+      b.textContent = 'Borrar';
+      b.addEventListener('click', function () { borrar(item._id); this.parentNode.remove(); });
+      d.appendChild(b);
+
+      return d;
+    }
+
+
+    function limpiarDocumentos() {
+      let division;
+
+      // Eliminamos sección y volvemos a crearla sin datos
+      document.getElementById('articulos').remove();
+      division = crearNodo('div', 'articulos', 'seccion', 'display: block');
+      document.getElementById('contenido').appendChild(division);
+    }
+
+
+
+    function insertarDocumento() {
+      let d, i1, i2;
+
+      d = document.createElement('div');
+
+      i1 = document.createElement('input');
+      i1.setAttribute('type', 'text');
+      i1.setAttribute('readonly', 'true');
+      i1.setAttribute('style', 'background-color: #bbb');
+      i1.setAttribute('value', 'Nombre');
+      d.appendChild(i1);
+
+      i2 = document.createElement('input');
+      i2.setAttribute('type', 'text');
+      i2.setAttribute('readonly', 'true');
+      i2.setAttribute('style', 'background-color: #bbb');
+      i2.setAttribute('value', 'Precio');
+      d.appendChild(i2);
+
+      document.getElementById('articulos').appendChild(d);
+
+      d = document.createElement('div');
+
+      i1 = document.createElement('input');
+      i1.setAttribute('type', 'text');
+      d.appendChild(i1);
+
+      i2 = document.createElement('input');
+      // i2.setAttribute('type', 'text');
+      i2.setAttribute('type', 'number');
+      i2.setAttribute('min', '0');
+      i2.setAttribute('max', '9999.99');
+      i2.setAttribute('step', '.01');
+      d.appendChild(i2);
+
+      b = crearNodo('button', 'insertar', '', '');
+      b.textContent = 'Insertar';
+      b.addEventListener('click', function () { insertar(i1.value, i2.value) });
+      d.appendChild(b);
+
+      document.getElementById('articulos').appendChild(d);
+    }
+
+
+    function verDocumentos() {
+      let i;
+      fetch('/api/articulos')
+        .then(function (response) { return response.json() })
+        .then(function (jsondata) {
+          jsondata.map(function (item) {
+            i = crearItem(item);
+            document.getElementById('articulos').appendChild(i);
+          });
+        });
+    }
+
+
+
+  </script>
+
+</body>
+
+</html>
