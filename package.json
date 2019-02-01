@@ -12,7 +12,7 @@
     "tienda",
     "javascript"
   ],
-  "author": "José Antonio Muñoz Jiménez",
+  "author": "Manuel Jesús Martín Prieto",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
