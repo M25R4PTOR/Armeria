@@ -12,7 +12,7 @@
 
 let index = `
      <div style="margin: 50px">
-         <h1>Tiendaw</h1>
+         <h1>Armer&iacute;a</h1>
          <small><b>Ejemplo didáctico: PWA y Fullstack MEN (MongoDB + Express + NodeJS) </b></small>
          <br><br>
          <p>Esta SPA (Single Page Application) ofrece 3 opciones:</p>
