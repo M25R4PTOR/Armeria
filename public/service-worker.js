@@ -9,9 +9,6 @@ const CACHE_NAME = 'tienda0-v1';
 const CACHE_ASSETS = [
   '/',
   '/index.html',
-  '/app0.html',
-  '/app1.html',
-  '/app2.html',
   '/styles/bootstrap.min.css',
   '/styles/toastr.css',
   '/scripts/bootstrap.min.js',
