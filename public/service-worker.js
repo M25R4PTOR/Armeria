@@ -3,7 +3,7 @@
 
 
 // Nombre de la caché
-const CACHE_NAME = 'tienda0-v1';
+const CACHE_NAME = 'armeria-v0';
 
 // Archivos necesarios para el funcionamiento offline
 const CACHE_ASSETS = [
