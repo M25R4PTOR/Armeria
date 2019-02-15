@@ -9,6 +9,8 @@ const CACHE_NAME = 'armeria-v0';
 const CACHE_ASSETS = [
   '/',
   '/index.html',
+  '/app.js',
+  '/style.css',
   '/styles/bootstrap.min.css',
   '/styles/toastr.css',
   '/scripts/bootstrap.min.js',
