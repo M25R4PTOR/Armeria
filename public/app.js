@@ -6,8 +6,8 @@
 
 
   let colecciones = {
-    articulos: { nombre: 'string', precio: 'number' },
-    clientes: { nombre: 'string', apellidos: 'string' }
+    articulos: { nombre: 'string', precio: 'number', descripcion: 'string'},
+    clientes: { nombre: 'string', apellidos: 'string', dni: 'string'}
 };
 
 let index = `
@@ -175,7 +175,8 @@ function json2table(collection, jsonData, classes) {
 <button class="insertar" title="Insertar" onclick="
     insertar('${collection}',  { 
         ${colNames[0]}: document.getElementById('${collection}.${colNames[0]}').value,
-        ${colNames[1]}: document.getElementById('${collection}.${colNames[1]}').value
+        ${colNames[1]}: document.getElementById('${collection}.${colNames[1]}').value,
+        ${colNames[2]}: document.getElementById('${collection}.${colNames[2]}').value
     }) ">
 <span>✏️</span>
 </button>
@@ -185,7 +186,8 @@ function json2table(collection, jsonData, classes) {
 <button class="modificar" title="Modificar" onclick="
     modificar ('${collection}', '${fila._id}', {
         ${colNames[0]}: document.getElementById('${fila._id}.${colNames[0]}').value, 
-        ${colNames[1]}: document.getElementById('${fila._id}.${colNames[1]}').value 
+        ${colNames[1]}: document.getElementById('${fila._id}.${colNames[1]}').value,
+        ${colNames[2]}: document.getElementById('${fila._id}.${colNames[2]}').value  
     }) ">
 <span>📝</span>
 </button>

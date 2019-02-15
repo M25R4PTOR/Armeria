@@ -37,7 +37,7 @@ router.delete('/clientes/:id', (req, res) => {
 
 // actualizar un Cliente
 router.put('/clientes/:id', (req, res) => {
-    Cliente.findOneAndUpdate({ _id: req.params.id }, { $set: { nombre: req.body.nombre, apellidos: req.body.apellidos } }, (err, data) => {
+    Cliente.findOneAndUpdate({ _id: req.params.id }, { $set: { nombre: req.body.nombre, apellidos: req.body.apellidos, dni: req.body.dni } }, (err, data) => {
         if (err) res.json({ error: err });
         else     res.json(data);
     });
@@ -46,7 +46,7 @@ router.put('/clientes/:id', (req, res) => {
 
 // insertar un Cliente
 router.post('/clientes', (req, res) => {
-    const cliente = new Cliente({ nombre: req.body.nombre, apellidos: req.body.apellidos });
+    const cliente = new Cliente({ nombre: req.body.nombre, apellidos: req.body.apellidos, dni: req.body.dni});
     cliente.save((err, data) => {
         if (err) res.json({ error: err });
         else     res.json(data);
@@ -87,7 +87,7 @@ router.delete('/articulos/:id', (req, res) => {
 
 // actualizar un articulo
 router.put('/articulos/:id', (req, res) => {
-    Articulo.findOneAndUpdate({ _id: req.params.id }, { $set: { nombre: req.body.nombre, precio: req.body.precio } }, (err, data) => {
+    Articulo.findOneAndUpdate({ _id: req.params.id }, { $set: { nombre: req.body.nombre, precio: req.body.precio, descripcion: req.body.descripcion } }, (err, data) => {
         if (err) res.json({ error: err });
         else     res.json(data);
     });
@@ -95,7 +95,7 @@ router.put('/articulos/:id', (req, res) => {
 
 // insertar un articulo
 router.post('/articulos', (req, res) => {
-    const articulo = new Articulo({ nombre: req.body.nombre, precio: req.body.precio });
+    const articulo = new Articulo({ nombre: req.body.nombre, precio: req.body.precio, descripcion: req.body.descripcion });
 
     articulo.save((err, data) => {
         if (err) res.json({ error: err });
