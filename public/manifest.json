@@ -2,7 +2,7 @@
   "name": "Armería Martín Écija (Sevilla)",
   "short_name": "Armería",
   "theme_color": "#d69b49",
-  "background_color": "#2196f3",
+  "background_color": "#d69b49",
   "display": "standalone",
   "Scope": "/",
   "start_url": "/",
